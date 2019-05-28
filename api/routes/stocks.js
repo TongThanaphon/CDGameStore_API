@@ -57,7 +57,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/findByProductId/:productId', (req, res, next) => {
     const id = req.params.productId;
-    Stock.findById(id)
+    Stock.find({ _id: id})
     .exec()
     .then(doc => {
         if(doc){
@@ -78,8 +78,8 @@ router.get('/findByProductId/:productId', (req, res, next) => {
     });
 });
 
-router.patch('/update/:productId', (req, res, next) => {
-    const id = req.params.productId;
+router.patch('/update/:stockId', (req, res, next) => {
+    const id = req.params.stockId;
     const updateOps = {};
 
     for(const ops of req.body){
@@ -101,8 +101,9 @@ router.patch('/update/:productId', (req, res, next) => {
     });
 });
 
-router.delete('/delete/:productId', (req, res, next) => {
-    Stock.remove({ _id: req.params.productId })
+router.delete('/delete/:stockId', (req, res, next) => {
+    const id = req.params.stockId;
+    Stock.remove({ _id: id })
     .exec()
     .then(result => {
         res.status(200).json({

@@ -92,6 +92,29 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.get('/findByDLCId/:dlcId', (req, res, next) => {
+    const id = req.params.dlcId;
+
+    DLC.find({ _id: id })
+    .exec()
+    .then(doc => {
+        if(doc){
+            res.status(200).json({
+                dlc: doc
+            });
+        }else{
+            res.status(404).json({
+                message: 'No valide DLC ' + id
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
+        });
+    });
+});
+
 router.get('/findByProductId/:productId', (req, res, next) => {
     const id = req.params.productId;
 
@@ -139,7 +162,8 @@ router.patch('/update/:dlcId', (req, res, next) => {
 });
 
 router.delete('/delete/:dlcId', (req, res, next) => {
-    DLC.remove({ _id: req.params.dlcId })
+    const id = req.params.dlcId;
+    DLC.remove({ _id: id })
     .exec()
     .then(result => {
         res.status(200).json({

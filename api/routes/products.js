@@ -93,6 +93,7 @@ router.get('/', (req, res, next) => {
                     price: doc.price,
                     publisher: doc.publisher,
                     category: doc.category,
+                    typeOfPlaying: doc.typeOfPlaying,
                     releaseDate: doc.releaseDate,
                     developer: doc.developer,
                     size: doc.size,
@@ -112,10 +113,99 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.get('/findByFilter/:product', (req, res, next) => {
-    const product = req.params.product;
+router.get('/findByProductId/:productId', (req, res, next) => {
+    const id = req.params.productId;
 
-    console.log(product);
+    Product.find({ _id: id })
+    .exec()
+    .then(doc => {
+        if(doc){
+            res.status(200).json({
+                    product: doc
+            });
+        }else{
+            res.status(404).json({
+                message: 'No valid product ' + id
+            })
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
+});
+
+router.get('/findByName/:productName', (req, res, next) => {
+    const name = req.params.productName;
+
+    Product.find({ name: name })
+    .exec()
+    .then(doc => {
+        if(doc){
+            res.status(200).json({
+                product: doc
+            });
+        }else{
+            res.status(404).json({
+                message: 'Can not find product name ' + name
+            });
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        })
+    });
+});
+
+router.get('/findByFilter/:product', (req, res, next) => {
+    const product = JSON.parse(req.params.product);
+    const price = product.price;
+    const category = product.category;
+    const typeOfPlaying = product.typeOfPlaying;
+    const language = product.language;
+
+    Product.find({ $and: [ {price: { $gte: price[0], $lte: price[1] }},
+                    {category: { $elemMatch: {category} }},
+                    {typeOfPlaying: { $elemMatch: {typeOfPlaying} }},
+                    {language: { $elemMatch: {language} }} ]
+                 })
+    .exec()
+    .then(docs => {
+        const response = {
+            count: docs.length,
+            product: docs.map(doc => {
+                return {
+                    _id: doc._id,
+                    dlcId: doc.dlcId,
+                    achievementId: doc.achievementId,
+                    name: doc.name,
+                    price: doc.price,
+                    publisher: doc.publisher,
+                    category: doc.category,
+                    typeOfPlaying: doc.typeOfPlaying,
+                    releaseDate: doc.releaseDate,
+                    developer: doc.developer,
+                    size: doc.size,
+                    language: doc.language,
+                    ageRate: doc.ageRate,
+                    platform: doc.platform,
+                    productImage: doc.productImage
+                };
+            })
+        };
+
+        res.status(200).json(response);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
 });
 
 router.patch('/update/:productId', (req, res, next) => {
@@ -142,7 +232,8 @@ router.patch('/update/:productId', (req, res, next) => {
 });
 
 router.delete('/delete/:productId', (req, res, next) => {
-    Product.remove({ _id: req.params.productId })
+    const id = req.params.productId;
+    Product.remove({ _id: id })
     .exec()
     .then(result => {
         res.status(200).json({

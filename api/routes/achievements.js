@@ -59,6 +59,29 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.get('/findByAchievementId/:achievementId', (req, res, next) => {
+    const id = req.param.achievementId;
+
+    Achievement.find({ _id: id })
+    .exec()
+    .then(doc =>  {
+        if(doc){
+            res.status(200).json({
+                achievement: doc
+            });
+        }else{
+            res.status(500).json({
+                message: 'No valid achievement ' + id
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
+        })
+    });
+});
+
 router.get('/findByProductId/:productId', (req, res, next) => {
     const id = req.params.productId;
 
@@ -83,7 +106,8 @@ router.get('/findByProductId/:productId', (req, res, next) => {
 });
 
 router.delete('/delete/:achievementId', (req, res, next) => {
-    Achievement.remove({ _id: req.params.achievementId })
+    const id = req.params.achievementId;
+    Achievement.remove({ _id: id })
     .exec()
     .then(result => {
         res.status(200).json({
