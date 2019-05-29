@@ -90,7 +90,7 @@ router.patch('/update/:stockId', (req, res, next) => {
     .exec()
     .then(result => {
         res.status(200).json({
-            message: 'Stock ' + id + ' updated'
+            message: 'Stock id ' + id + ' updated'
         });
     })
     .catch(err => {
@@ -107,7 +107,7 @@ router.delete('/delete/:stockId', (req, res, next) => {
     .exec()
     .then(result => {
         res.status(200).json({
-            message: 'Stock ' + id + ' deleted'
+            message: 'Stock id ' + id + ' deleted'
         });
     })
     .catch(err => {

@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const checkAuth = require('../middleware/check-auth');
 
 router.post('/signup', (req, res, next) => {
     User.find({ email: req.body.email })
@@ -106,7 +107,7 @@ router.post('/login', (req, res, next) => {
     });
 });
 
-router.patch('/update/:userId', (req, res, next) => {
+router.patch('/update/:userId', checkAuth, (req, res, next) => {
     const id  = req.params.userId;
     const updateOps = {};
 

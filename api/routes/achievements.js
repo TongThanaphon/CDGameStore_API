@@ -71,7 +71,7 @@ router.get('/findByAchievementId/:achievementId', (req, res, next) => {
             });
         }else{
             res.status(500).json({
-                message: 'No valid achievement ' + id
+                message: 'Achievement id ' + id + ' does not exist'
             });
         }
     })
@@ -94,7 +94,7 @@ router.get('/findByProductId/:productId', (req, res, next) => {
             });
         }else{
             res.status(404).json({
-                message: 'No valid product ' + id 
+                message: 'Product id ' + id + ' does not exist' 
             });
         }
     })
@@ -111,7 +111,7 @@ router.delete('/delete/:achievementId', (req, res, next) => {
     .exec()
     .then(result => {
         res.status(200).json({
-            message: 'Achievement ' + id + ' deleted'
+            message: 'Achievement id ' + id + ' deleted'
         });
     })
     .catch(err => {

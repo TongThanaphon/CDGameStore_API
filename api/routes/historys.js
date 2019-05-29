@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const History = require('../models/history');
 const checkAuth = require('../middleware/check-auth');
 
-router.post('/create', checkAuth, (req, res, next) => {
+router.post('/create', (req, res, next) => {
     const history = new History({
         _id: new mongoose.Types.ObjectId(),
         userId: req.body.userId,
@@ -16,6 +16,11 @@ router.post('/create', checkAuth, (req, res, next) => {
         dlc: {
             dlcId: req.body.dlc,
             quantity: req.body.dlc.quantity
+        },
+        date: {
+            year: req.body.date.year,
+            month: req.body.date.month,
+            day: req.body.date.day
         }
     });
 
@@ -28,7 +33,8 @@ router.post('/create', checkAuth, (req, res, next) => {
                 _id: result._id,
                 userId: result.userId,
                 product: result.product,
-                dlc: result.dlc
+                dlc: result.dlc,
+                date: result.date
             }
         });
     })
@@ -40,7 +46,7 @@ router.post('/create', checkAuth, (req, res, next) => {
     });
 });
 
-router.get('/', checkAuth, (req, res, next) => {
+router.get('/', (req, res, next) => {
     History.find()
     .exec()
     .then(docs => {
@@ -51,7 +57,8 @@ router.get('/', checkAuth, (req, res, next) => {
                     _id: doc._id,
                     userId: doc.userId,
                     product: doc.product,
-                    dlc: doc.dlc
+                    dlc: doc.dlc,
+                    date: doc.date
                 };
 
             })
@@ -64,6 +71,56 @@ router.get('/', checkAuth, (req, res, next) => {
         res.status(500).json({
             error: err
         })
+    });
+});
+
+router.get('/findByProductId/:productId', (req, res, next) => {
+    const id = req.params.productId;
+    
+    History.find({ product: { productId: id } })
+    .exec()
+    .then(docs => {
+        const response = {
+            count: docs.length,
+            product: docs.map(doc => {
+                return {
+                    product: doc.product,
+                    date: doc.date
+                };
+            })
+        };
+        res.status(200).json(response);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
+});
+
+router.get('/findByDLCId/:dlcId', (req, res, next) => {
+    const id = req.params.dlcId;
+    
+    History.find({ dlc: { dlcId: id } })
+    .exec()
+    .then(docs => {
+        const response = {
+            count: docs.length,
+            product: docs.map(doc => {
+                return {
+                    dlc: doc.dlc,
+                    date: doc.date
+                };
+            })
+        };
+        res.status(200).json(response);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
     });
 });
 

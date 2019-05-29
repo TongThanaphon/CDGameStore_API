@@ -104,7 +104,7 @@ router.get('/findByDLCId/:dlcId', (req, res, next) => {
             });
         }else{
             res.status(404).json({
-                message: 'No valide DLC ' + id
+                message: 'DLC id ' + id + ' does not exist'
             });
         }
     })
@@ -127,7 +127,7 @@ router.get('/findByProductId/:productId', (req, res, next) => {
             });
         }else{
             res.status(500).json({
-                message: 'No valid product id ' + id
+                message: 'Product id ' + id + ' does not exist'
             });
         }
     })
@@ -150,7 +150,7 @@ router.patch('/update/:dlcId', (req, res, next) => {
     .exec()
     .then(result => {
         res.status(200).json({
-            message: 'DLC ' + id + ' updated'
+            message: 'DLC id ' + id + ' updated'
         });
     })
     .catch(err => {
@@ -167,7 +167,7 @@ router.delete('/delete/:dlcId', (req, res, next) => {
     .exec()
     .then(result => {
         res.status(200).json({
-            message: 'DLC ' + id + ' deleted'
+            message: 'DLC id ' + id + ' deleted'
         });
     })
     .catch(err => {

@@ -125,7 +125,7 @@ router.get('/findByProductId/:productId', (req, res, next) => {
             });
         }else{
             res.status(404).json({
-                message: 'No valid product ' + id
+                message: 'Product id ' + id + 'does not exist'
             })
         }
     })
@@ -149,7 +149,7 @@ router.get('/findByName/:productName', (req, res, next) => {
             });
         }else{
             res.status(404).json({
-                message: 'Can not find product name ' + name
+                message: 'Product name ' + name + ' does not exist'
             });
         }
     })
@@ -220,7 +220,7 @@ router.patch('/update/:productId', (req, res, next) => {
     .exec()
     .then(result => {
         res.status(200).json({
-            message: 'Product ' + id + ' updated'
+            message: 'Product id ' + id + ' updated'
         });
     })
     .catch(err => {
@@ -237,7 +237,7 @@ router.delete('/delete/:productId', (req, res, next) => {
     .exec()
     .then(result => {
         res.status(200).json({
-            message: 'Product ' + id + ' deleted'
+            message: 'Product id ' + id + ' deleted'
         });
     })
     .catch(err => {

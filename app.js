@@ -39,7 +39,7 @@ app.use('/products', productRoutes);
 app.use('/dlcs', dlcRoutes);
 app.use('/achievements', achievementRoutes);
 app.use('/stocks', stockRoutes);
-app.use('/user', userRoutes);
+app.use('/users', userRoutes);
 app.use('/historys', historyRoutes);
 app.use('/carts', cartRoutes);
 
