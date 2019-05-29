@@ -40,7 +40,7 @@ router.post('/create', upload.single('productImage'), (req, res, next) => {
         category: req.body.category,
         typeOfPlaying: req.body.typeOfPlaying,
         releaseDate: req.body.releaseDate,
-        devepoper: req.body.developer,
+        developer: req.body.developer,
         size: req.body.size,
         language: req.body.language,
         ageRate: req.body.ageRate,
