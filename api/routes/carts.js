@@ -98,7 +98,7 @@ router.delete('/delete/:cartId', (req, res, next) => {
     });
 });
 
-router.delete('/delete/:userId', (req, res, next) => {
+router.delete('/deleteAll/:userId', (req, res, next) => {
     const id = req.params.usertId;
 
     Cart.remove({ user: id })

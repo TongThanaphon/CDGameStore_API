@@ -107,6 +107,23 @@ router.post('/login', (req, res, next) => {
     });
 });
 
+router.get('/:userId', (req, res, next) => {
+    const id = req.params.userId;
+    User.find({ _id: id })
+    .exec()
+    .then(user => {
+        res.status(200).json({
+            user: user
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
+});
+
 router.patch('/update/:userId', checkAuth, (req, res, next) => {
     const id  = req.params.userId;
     const updateOps = {};
