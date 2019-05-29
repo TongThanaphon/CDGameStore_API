@@ -107,7 +107,7 @@ router.post('/login', (req, res, next) => {
     });
 });
 
-router.get('/:userId', (req, res, next) => {
+router.get('/:userId', checkAuth, (req, res, next) => {
     const id = req.params.userId;
     User.find({ _id: id })
     .exec()
