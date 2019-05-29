@@ -5,6 +5,7 @@ const productSchema = mongoose.Schema({
     dlcId: { type: Array, ref: 'DLC' },
     achievementId: { type: Array, ref: 'Achievement' },
     name: { type: String, required: true },
+    description: { type: String },
     price: { type: Number, required: true },
     publisher: { type: String, required: true },
     category: { type: Array, required: true },
