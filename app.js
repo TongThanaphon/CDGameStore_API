@@ -8,6 +8,9 @@ const productRoutes = require('./api/routes/products');
 const dlcRoutes = require('./api/routes/dlcs');
 const achievementRoutes = require('./api/routes/achievements');
 const stockRoutes = require('./api/routes/stocks');
+const userRoutes = require('./api/routes/user');
+const historyRoutes = require('./api/routes/historys');
+const cartRoutes = require('./api/routes/carts');
 
 mongoose.connect('mongodb+srv://adminske:' + process.env.MONGO_ATLAS_PW 
 + '@cd-game-store-fmvqj.mongodb.net/test?retryWrites=true',
@@ -36,6 +39,9 @@ app.use('/products', productRoutes);
 app.use('/dlcs', dlcRoutes);
 app.use('/achievements', achievementRoutes);
 app.use('/stocks', stockRoutes);
+app.use('/user', userRoutes);
+app.use('/historys', historyRoutes);
+app.use('/carts', cartRoutes);
 
 app.use((req, res, next) => {
     const error = new Error('Not Found');
