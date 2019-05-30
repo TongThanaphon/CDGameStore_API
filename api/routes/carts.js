@@ -100,7 +100,7 @@ router.delete('/delete/:cartId', (req, res, next) => {
 });
 
 router.delete('/deleteAll/:userId', (req, res, next) => {
-    const id = req.params.usertId;
+    const id = req.params.userId;
 
     Cart.remove({ user: id })
     .exec()
