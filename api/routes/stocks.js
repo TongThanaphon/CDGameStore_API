@@ -81,7 +81,7 @@ router.get('/findByProductId/:productId', (req, res, next) => {
 router.get('/findByStockId/:stockId', (req, res, next) => {
     const id = req.params.stockId;
 
-    Stock.find({ stock: id })
+    Stock.find({ _id : id })
     .exec()
     .then(doc => {
         res.status(200).json({
