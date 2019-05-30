@@ -107,7 +107,7 @@ router.post('/login', (req, res, next) => {
     });
 });
 
-router.get('/:userId', checkAuth, (req, res, next) => {
+router.get('/details/:userId', checkAuth, (req, res, next) => {
     const id = req.params.userId;
     User.find({ _id: id })
     .exec()
@@ -146,7 +146,43 @@ router.patch('/update/:userId', checkAuth, (req, res, next) => {
     });
 });
 
-router.delete('/:userId', (req, res, next) => {
+router.get('/guest', (req, res, next) => {
+    const guest = process.env.GUEST_ID;
+
+    User.find({ _id: guest })
+    .exec()
+    .then(guest => {
+        res.status(200).json({
+            guest: guest
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        })
+    });
+});
+
+router.patch('/updateguest', (req, res, next) => {
+    const guest = process.env.GUEST_ID;
+
+    User.update({ _id: guest }, { $set: { history: req.body.history } })
+    .exec()
+    .then(result => {
+        res.status(200).json({
+            message: 'Guest user updated'
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
+});
+
+router.delete('/delete/:userId', (req, res, next) => {
     const id = req.params.userId;
 
     User.remove({ _id: id })

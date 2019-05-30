@@ -1,6 +1,7 @@
 {
     "env": {
         "MONGO_ATLAS_PW": "ske15",
-        "JWT_KEY": "secret"
+        "JWT_KEY": "secret",
+        "GUEST_ID": "5cef84fca67fa23d318f6eac"
     }
 }
