@@ -124,4 +124,33 @@ router.get('/findByDLCId/:dlcId', (req, res, next) => {
     });
 });
 
+router.get('findByUserId/:userId', checkAuth, (req, res, next) => {
+    const id = req.params.userId;
+
+    History.find({ userId: id })
+    .exec()
+    .then(docs => {
+        const response = {
+            count: docs.length,
+            history: docs.map(doc => {
+                return {
+                    _id: doc._id,
+                    userId: doc.userId,
+                    product: doc.product,
+                    dlc: doc.dlc,
+                    date: doc.date
+                };
+            })
+        };
+
+        res.status(200).json(response);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
+});
+
 module.exports = router;
