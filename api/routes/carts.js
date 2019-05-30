@@ -33,8 +33,9 @@ router.post('/create', (req, res, next) => {
     });
 });
 
-router.get('/', (req, res, next) => {
-    Cart.find()
+router.get('/:userId', (req, res, next) => {
+    const id = req.params.usertId;
+    Cart.find({ user: id })
     .exec()
     .then(docs => {
         const response = {
