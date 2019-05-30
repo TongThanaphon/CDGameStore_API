@@ -78,6 +78,7 @@ router.get('/findByItemId/:itemId', (req, res, next) => {
             count: docs.length,
             product: docs.map(doc => {
                 return {
+                    _id: doc._id,
                     userId: doc.userId,
                     item: doc.product,
                     quantity: doc.quantity,
@@ -107,8 +108,8 @@ router.get('/findByUserId/:userId', checkAuth, (req, res, next) => {
                 return {
                     _id: doc._id,
                     userId: doc.userId,
-                    product: doc.product,
-                    dlc: doc.dlc,
+                    item: doc.item,
+                    quantity: doc.quantity,
                     date: doc.date
                 };
             })
