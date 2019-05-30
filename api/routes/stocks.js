@@ -7,8 +7,9 @@ const Stock = require('../models/stock');
 router.post('/create', (req, res, next) => {
     const stock = new Stock({
         _id: new mongoose.Types.ObjectId(),
-        productId: req.body.productId,
-        quantity: req.body.quantity
+        itemId: req.body.itemId,
+        quantity: req.body.quantity,
+        type: req.body.type
     });
 
     stock
@@ -18,8 +19,9 @@ router.post('/create', (req, res, next) => {
             message: 'Stock created',
             createStock: {
                 _id: result._id,
-                productId: result.productId,
-                quantity: result.quantity
+                itemId: result.itemId,
+                quantity: result.quantity,
+                type: result.type
             }
         });
     })
@@ -40,8 +42,9 @@ router.get('/', (req, res, next) => {
             stocks: docs.map(doc => {
                 return {
                     _id: doc._id,
-                    productId: doc.productId,
-                    quantity: doc.quantity
+                    itemId: doc.itemId,
+                    quantity: doc.quantity,
+                    type: doc.type
                 };
             })
         };
@@ -55,9 +58,9 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.get('/findByProductId/:productId', (req, res, next) => {
-    const id = req.params.productId;
-    Stock.find({ productId: id})
+router.get('/findById/:itemId', (req, res, next) => {
+    const id = req.params.itemId;
+    Stock.find({ itemId: id})
     .exec()
     .then(doc => {
         if(doc){
@@ -66,7 +69,7 @@ router.get('/findByProductId/:productId', (req, res, next) => {
             });
         }else{
             res.status(404).json({
-                message: 'No valid product ' + id
+                message: 'Item id ' + id + ' does not exist'
             });
         }
     })
