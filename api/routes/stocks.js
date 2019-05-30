@@ -78,6 +78,24 @@ router.get('/findByProductId/:productId', (req, res, next) => {
     });
 });
 
+router.get('/findByStockId/:stockId', (req, res, next) => {
+    const id = req.params.stockId;
+
+    Stock.find({ stock: id })
+    .exec()
+    .then(doc => {
+        res.status(200).json({
+            stock: doc
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
+});
+
 router.patch('/update/:stockId', (req, res, next) => {
     const id = req.params.stockId;
     const updateOps = {};
