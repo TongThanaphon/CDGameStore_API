@@ -172,9 +172,9 @@ router.get('/findByFilter/:product', (req, res, next) => {
     const language = product.language;
 
     Product.find({ $and: [ {price: { $gte: price[0], $lte: price[1] }},
-                    {category: { $in: category }},
-                    {typeOfPlaying: { $in: typeOfPlaying }},
-                    {language: { $in: language }} 
+                    {category: { $all: category }},
+                    {typeOfPlaying: { $all: typeOfPlaying }},
+                    {language: { $all: language }} 
                 ]})
     .exec()
     .then(docs => {
