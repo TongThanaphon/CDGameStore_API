@@ -60,7 +60,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/findByAchievementId/:achievementId', (req, res, next) => {
-    const id = req.param.achievementId;
+    const id = req.params.achievementId;
 
     Achievement.find({ _id: id })
     .exec()
